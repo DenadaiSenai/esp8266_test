@@ -18,7 +18,7 @@ O JSON de retorno está no endpoint /status
 4. Para acessar o endpoint, abra o browser de sua preferência, coloque o IP do ESP seguido de /status  
 4.1 Exemplo: http://192.168.0.100/status
   O retorno deverá ser o JSON com os dados randômicos de temperatura, millis e humidade.  
-```
+```json
 { "temperatura":44, "millis":2129286, "humidade":71}
 ```
   
