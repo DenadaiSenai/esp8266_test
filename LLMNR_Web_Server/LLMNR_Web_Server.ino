@@ -60,10 +60,16 @@
 #include <ESP8266WebServer.h>
 #include <WiFiClient.h>
 
+//#include "SoftwareSerial.h"
+
+//SoftwareSerial ESP_Serial(10, 11);  // RX, TX
+
 #ifndef STASSID
-#define STASSID "1227"
-#define STAPSK "2169382540"
+#define STASSID "IOT101"
+#define STAPSK "Senai101!@#"
 #endif
+
+#define LED 2
 
 const char* ssid = STASSID;
 const char* password = STAPSK;
@@ -84,22 +90,26 @@ void status() {
   long m = millis();
   randomSeed(m);
   long r = random(50);
-  String resposta = "{ \"temperatura\":%T%, \"millis\":%M%}";
+  long umidade = random(100);
+  String resposta = "{\"temperatura\":%T%, \"millis\":%M%, \"humidade\":%U%}";
   resposta.replace("%T%", String(r));
   resposta.replace("%M%", String(m));
+  resposta.replace("%U%", String(umidade));
   web_server.send(200, "text/json", resposta);
 }
 
 void setup(void) {
+  pinMode(LED, OUTPUT);
   randomSeed(millis());
   Serial.begin(2000000);
+  // ESP_Serial.begin(2000000);
 
   // Connect to WiFi network
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
   Serial.println("");
 
-  // Wait for connection
+  //Wait for connection
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
@@ -123,4 +133,14 @@ void setup(void) {
 
 void loop(void) {
   web_server.handleClient();
+
+  digitalWrite(LED, !digitalRead(LED));
+  delay(100);
+
+  // if (ESP_Serial.available()) {
+  //   Serial.write(ESP_Serial.read());
+  // }
+  // if (Serial.available()) {
+  //   ESP_Serial.write(Serial.read());
+  // }
 }
