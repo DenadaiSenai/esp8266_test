@@ -15,7 +15,7 @@ O JSON de retorno está no endpoint /status
 1. Configure a rede WIFI em que seu ESP estará conectado 
 2. Compile o Programa para o ESP 
 3. Abra o terminal serial do Arduino Studio e verifique o IP do ESP
-4. Para acessar o endpoint, abra o browser de sua preferência, coloque o IP do ESP seguido de /status 
+4. Para acessar o endpoint, abra o browser de sua preferência, coloque o IP do ESP seguido de /status  
 4.1 Exemplo: http://192.168.0.100/status
   O retorne deverá ser o JSON com os dados randômicos de temperatura, millis e humidade.
   
