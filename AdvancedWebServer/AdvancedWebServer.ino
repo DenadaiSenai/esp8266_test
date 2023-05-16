@@ -33,12 +33,15 @@
 #include <WebServer.h>
 #include <ESPmDNS.h>
 
+#define LED 2
+#define led LED
+
 const char *ssid = "IOT101";
 const char *password = "Senai101!@#";
 
 WebServer server(80);
 
-const int led = 13;
+//const int led = 13;
 
 void handleRoot() {
   digitalWrite(led, 1);
@@ -138,7 +141,8 @@ void setup(void) {
 
 void loop(void) {
   server.handleClient();
-  delay(2);//allow the cpu to switch to other tasks
+  digitalWrite(LED, !digitalRead(LED));
+  delay(100);
 }
 
 void drawGraph() {
