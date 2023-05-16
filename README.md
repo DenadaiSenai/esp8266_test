@@ -17,7 +17,7 @@ O JSON de retorno está no endpoint /status
 3. Abra o terminal serial do Arduino Studio e verifique o IP do ESP
 4. Para acessar o endpoint, abra o browser de sua preferência, coloque o IP do ESP seguido de /status  
 4.1 Exemplo: http://192.168.0.100/status
-  O retorno deverá ser o JSON com os dados randômicos de temperatura, millis e humidade.
+  O retorno deverá ser o JSON com os dados randômicos de temperatura, millis e humidade.  
   { "temperatura":44, "millis":2129286, "humidade":71}
   
 ### Utilize esse endpoint no NODE-RED para oegar os dados do ESP e enviar para alguma plataforma MQTT.
