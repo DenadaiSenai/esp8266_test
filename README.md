@@ -23,4 +23,4 @@ O JSON de retorno está no endpoint /status
 ```
   
   
-### Utilize esse endpoint no NODE-RED para oegar os dados do ESP e enviar para alguma plataforma MQTT.
+> Utilize esse endpoint no NODE-RED para pegar os dados do ESP e enviar para alguma plataforma MQTT.
