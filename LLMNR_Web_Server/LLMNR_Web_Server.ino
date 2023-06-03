@@ -69,7 +69,10 @@
 #define STAPSK "Senai101!@#"
 #endif
 
-#define LED 2
+#define LED 2  // Pino do LED embutido no NodeMCU ESP8266
+
+#define CLI_MAX_COUNT 100  // Define o número máximode tentativas para conectar como cliente na rede WiFi
+char count_wifi = 0;      // Contador de tentativas de conexão com WiFi
 
 const char* ssid = STASSID;
 const char* password = STAPSK;
@@ -110,10 +113,20 @@ void setup(void) {
   Serial.println("");
 
   //Wait for connection
+
   while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
+    if (count_wifi < CLI_MAX_COUNT) {
+      delay(500);
+      Serial.print(".");
+      count_wifi++;
+    } else { // Se em 100 tentativas não conectar na rede cria um AP
+      WiFi.mode(WIFI_AP);
+      WiFi.begin(ssid, password);
+      Serial.println("\nRede não encontrada.\nMudando para modo de Access Point");
+      count_wifi=0;
+    }
   }
+
   Serial.println("");
   Serial.print("Connected to ");
   Serial.println(ssid);
