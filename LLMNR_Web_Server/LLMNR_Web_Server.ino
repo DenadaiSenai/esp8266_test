@@ -82,7 +82,7 @@ DNSServer dnsServer;
 
 #define LED 2  // Pino do LED embutido no NodeMCU ESP8266
 
-#define CLI_MAX_COUNT 10  // Define o número máximode tentativas para conectar como cliente na rede WiFi
+#define CLI_MAX_COUNT 10  // Define o número máximo de tentativas para conectar como cliente na rede WiFi
 char count_wifi = 0;      // Contador de tentativas de conexão com WiFi
 
 String ssid = STASSID;

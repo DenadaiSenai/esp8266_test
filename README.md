@@ -29,7 +29,7 @@ Link para configurar o NodeMCU ESP8266 no Arduino studio: https://arduino.esp826
 > ```    
 > - Utilize esse endpoint no NODE-RED para pegar os dados do ESP e enviar para alguma plataforma MQTT.
 
-## Pagina inicial do ESP
+## Página inicial do ESP
 A página do Dashboard do ESP é armazenado na variável "index_html", o arquivo original pode ser editado com qualquer editor de código (texto), recomenda-se editar o arquivo **_index_html_esp.html_**.
 > **OBS:** Por incopatibilidade o arquivo editado precisa ser convertido para uma String em C++.  
 > - Utilize este site para converter o [HTML em String C++](https://tomeko.net/online_tools/cpp_text_escape.php?lang=en).  
