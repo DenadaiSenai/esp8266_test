@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ESP8266 Dashboard</title>
+    <style>
+        * {
+            margin: 0px auto;
+            padding: 0px;
+            border: 1px solid red;
+            align-items: center;
+            text-align: center;
+        }
+        nav ul {
+            display: flex;
+            flex-direction: row;
+            margin: 8px;
+        }
+        header {
+            background-color: orange;
+        }
+        #temperature {
+            font-size: 96px;
+            font-family: 'Courier New', Courier, monospace;
+            border: 3px dotted yellow;
+            border-radius: 24px;
+            background-color: yellowgreen;
+        }
+    </style>
+    <script> setInterval(function () { var xhttp = new XMLHttpRequest(); xhttp.onreadystatechange = function () { if (this.readyState == 4 && this.status == 200) { document.getElementById('temperature').innerHTML = this.responseText; } }; xhttp.open('GET', '/status', true); xhttp.send(); }, 5000); </script>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li>LED</li>
+            <li>RTC</li>
+        </ul>
+    </nav>
+    <header>
+        <h1>ESP 8266 DashBoard</h1>
+    </header>
+    <main id="temperature"> PRINCIPAL </main>
+    <footer>
+        <h3>©2023 Marcio Denadai</h3>
+    </footer>
+</body>
+</html>

@@ -43,7 +43,7 @@ WebServer server(80);
 
 //const int led = 13;
 
-void handleRoot() {
+void handleRootOld() {
   digitalWrite(led, 1);
   char temp[400];
   int sec = millis() / 1000;
@@ -71,6 +71,11 @@ void handleRoot() {
           );
   server.send(200, "text/html", temp);
   digitalWrite(led, 0);
+}
+
+void handleRoot() {
+  const String index_html = "<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>ESP8266 Dashboard</title><style>*{margin:0 auto;padding:0;border:1px solid red;align-items:center;text-align:center}nav ul{display:flex;flex-direction:row;margin:8px}header{background-color:orange}#temperature{font-size:96px;font-family:'Courier New',Courier,monospace;border:3px dotted #ff0;border-radius:24px;background-color:#9acd32}</style><script>setInterval(function(){var e=new XMLHttpRequest;e.onreadystatechange=function(){4==this.readyState&&200==this.status&&(document.getElementById("temperature").innerHTML=this.responseText)},e.open("GET","/status",!0),e.send()},5e3)</script></head><body><nav><ul><li>LED</li><li>RTC</li></ul></nav><header><h1>ESP 8266 DashBoard</h1></header><main id="temperature">PRINCIPAL</main><footer><h3>©2023 Marcio Denadai</h3></footer></body></html>";
+  server.send(200, "text/html", index_html);
 }
 
 void handleNotFound() {
@@ -127,12 +132,15 @@ void setup(void) {
   if (MDNS.begin("esp32")) {
     Serial.println("MDNS responder started");
   }
-
-  server.on("/", handleRoot);
+  
+  // Old root (index.html)
+  server.on("/old", handleRoot);
   server.on("/test.svg", drawGraph);
   server.on("/inline", []() {
     server.send(200, "text/text", "this works as well");
   });
+
+  server.on("/", handleRoot); // New index_html 
   server.on("/status", status);
   server.onNotFound(handleNotFound);
   server.begin();
