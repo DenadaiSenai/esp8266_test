@@ -33,5 +33,12 @@ Link para configurar o NodeMCU ESP8266 no Arduino studio: https://arduino.esp826
 A página do Dashboard do ESP é armazenado na variável "index_html", o arquivo original pode ser editado com qualquer editor de código (texto), recomenda-se editar o arquivo **_index_html_esp.html_**.
 > **OBS:** Por incopatibilidade o arquivo editado precisa ser convertido para uma String em C++.  
 > - Utilize este site para converter o [HTML em String C++](https://tomeko.net/online_tools/cpp_text_escape.php?lang=en).  
+
+
 > Atribua a string convertida na variável **_index_html_** [código fonte](https://github.com/DenadaiSenai/esp8266_test/blob/a484e46ac1f8d950f663807b382c63a9ee94cd7f/LLMNR_Web_Server/LLMNR_Web_Server.ino#L82).  
 > No arquivo **LLMNR_Web_Server.ino** https://github.com/DenadaiSenai/esp8266_test/blob/a484e46ac1f8d950f663807b382c63a9ee94cd7f/LLMNR_Web_Server/LLMNR_Web_Server.ino#L82
+> No arquivo **AdvancedWebServer.ino** https://github.com/DenadaiSenai/esp8266_test/blob/71f702e39ee9db26c08ed3f28bb79f286a4f31b4/AdvancedWebServer/AdvancedWebServer.ino#L77
+
+## Opcional
+Caso queira diminuar o tamanho da String do index_html, utilize antes um conversor online para minimizar o HTML.
+- Site para [minimizar o HTML](https://codebeautify.org/minify-html) antes de converter em string C++.
