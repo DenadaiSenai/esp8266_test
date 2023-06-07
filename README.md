@@ -6,12 +6,14 @@ Simulação de endpoints devolvendo JSON de temperatura e humidade
 
 <details>  
   <summary>ESP8266 - LLMNR_Web_Server</summary>
-- Web server para ESP8266
-Link para configurar o NodeMCU ESP8266 no Arduino studio: https://arduino.esp8266.com/stable/package_esp8266com_index.json
+- Arquivo de configuração das placas de ESP8266 para usar no Arduino Studio<br>
+- Link para configurar o NodeMCU ESP8266 no Arduino Studio: https://arduino.esp8266.com/stable/package_esp8266com_index.json
 </details>
+
 <details>
   <summary>ESP32 - AdvancedWebServer</summary>
-- Web server para ESP32
+- Arquivo de configuração das placas de ESP32 para usar no Arduino Studio<br>
+- Link para configurar o NodeMCU ESP32 no Arduino Studio: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
 </details>
 
 ## Tutorial  
