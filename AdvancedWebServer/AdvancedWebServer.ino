@@ -28,23 +28,37 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-//#include <WiFi.h>
+#include <WiFi.h>
 #include <WiFiClient.h>
 #include <WebServer.h>
 #include <ESPmDNS.h>
+#include "DHT.h"
+
+#define DHTPIN 4  // what pin we're connected to
+//#define DHTTYPE DHT11  // DHT 11
+#define DHTTYPE DHT22   // DHT 22  (AM2302)
+//#define DHTTYPE DHT21   // DHT 21 (AM2301)DHT dht(DHTPIN, DHTTYPE);
+DHT dht(DHTPIN, DHTTYPE);
+
+#define TIME 100
 
 #define SERIAL_BAUDRATE 2000000 // Configuração da velocidade da porta serial 2MBits
 
 #define LED 2
 #define led LED
 
+#define CLI_MAX_COUNT 10 // Define o número máximo de tentativas para conectar como cliente na rede WiFi
+char count_wifi = 0;     // Contador de tentativas de conexão com WiFi
+
 const char *ssid = "IOT101";
 const char *password = "Senai101!@#";
+// const String ssid = "SECRETARIA";
+// const String password = "secretari@";
 
 #define HTTP_PORT 80
 #define DNS_PORT 53
 IPAddress apIP(10, 10, 0, 1);
-DNSServer dnsServer;
+//DNSServer dnsServer;
 
 WebServer server(HTTP_PORT);
 
@@ -101,15 +115,16 @@ void wifi_apconfig()
 
   // if DNSServer is started with "*" for domain name, it will reply with
   // provided IP to all DNS request
-  dnsServer.start(DNS_PORT, "*", apIP);
+  //dnsServer.start(DNS_PORT, "*", apIP);
 }
 
 void status()
 {
   long m = millis();
-  randomSeed(m);
-  long r = random(50);
-  long umidade = random(100);
+  //randomSeed(m);
+  //long r = random(50);
+  long r = dht.readTemperature();
+  long umidade = dht.readHumidity();
   String resposta = "{\"temperatura\":%T%, \"millis\":%M%, \"humidade\":%U%}";
   resposta.replace("%T%", String(r));
   resposta.replace("%M%", String(m));
@@ -125,6 +140,7 @@ void setup(void)
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
   Serial.println("");
+  dht.begin();  // Sensor de temperatura
 
   // Wait for connection
   while (WiFi.status() != WL_CONNECTED)
@@ -142,7 +158,8 @@ void setup(void)
       Serial.println("\nRede não encontrada.\n" + msg);
       delay(100);
       wifi_apconfig(); // Chama a rotina para configurar como Access Point
-      ssid = WiFi.softAPSSID();
+      //ssid = WiFi.softAPSSID();
+      ssid = *char(WiFi.softAPSSID());
       break;
     }
   }
