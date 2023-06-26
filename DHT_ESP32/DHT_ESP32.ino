@@ -13,6 +13,10 @@
 /* the task every 20 seconds                                  */
 /**************************************************************/
 
+#define LED 5 // LED sinalizador de leitura
+#define PERIODO_TEMPO_LEITURA_DHT 60 // Intervalo de leitura do DHT22/11
+#define DTHPIN 4 // Pino de leitura I2C do DHT22/11
+
 DHTesp dht;
 
 void tempTask(void *pvParameters);
@@ -27,8 +31,8 @@ Ticker tempTicker;
 ComfortState cf;
 /** Flag if task should run */
 bool tasksEnabled = false;
-/** Pin number for DHT11 data pin */
-int dhtPin = 4;
+/** Pin number for DHT22/11 data pin */
+int dhtPin = DTHPIN;
 
 /**
  * initTemp
@@ -39,11 +43,11 @@ int dhtPin = 4;
  *    false if task or timer couldn't be started
  */
 bool initTemp() {
-  pinMode(5, OUTPUT); // LED no Pino 5
+  pinMode(LED, OUTPUT); // LED no Pino 5
 
   byte resultValue = 0;
   // Initialize temperature sensor
-	dht.setup(dhtPin, DHTesp::AUTO_DETECT);
+	dht.setup(dhtPin, DHTesp::DHT22 ); // Use DHTesp::AUTO_DETECT para detectar automaticamente o tipo de sensor
 	Serial.println("DHT initiated");
 
   // Start task to get temperature
@@ -60,8 +64,8 @@ bool initTemp() {
     Serial.println("Failed to start task for temperature update");
     return false;
   } else {
-    // Start update of environment data every 20 seconds
-    tempTicker.attach(60, triggerGetTemp);
+    // Start update of environment data every 60 seconds
+    tempTicker.attach(PERIODO_TEMPO_LEITURA_DHT, triggerGetTemp);
   }
   return true;
 }
@@ -78,7 +82,7 @@ void triggerGetTemp() {
 }
 
 /**
- * Task to reads temperature from DHT11 sensor
+ * Task to reads temperature from DHT22/11 sensor
  * @param pvParameters
  *    pointer to task parameters
  */
@@ -97,19 +101,19 @@ void tempTask(void *pvParameters) {
 
 /**
  * getTemperature
- * Reads temperature from DHT11 sensor
+ * Reads temperature from DHT22/11 sensor
  * @return bool
  *    true if temperature could be aquired
  *    false if aquisition failed
 */
 bool getTemperature() {
-  digitalWrite(5, !digitalRead(5));
+  digitalWrite(LED, !digitalRead(5));
 	// Reading temperature for humidity takes about 250 milliseconds!
 	// Sensor readings may also be up to 2 seconds 'old' (it's a very slow sensor)
   TempAndHumidity newValues = dht.getTempAndHumidity();
 	// Check if any reads failed and exit early (to try again).
 	if (dht.getStatus() != 0) {
-		Serial.println("DHT11 error status: " + String(dht.getStatusString()));
+		Serial.println("DHT22/11 error status: " + String(dht.getStatusString()));
 		return false;
 	}
 
@@ -153,7 +157,7 @@ bool getTemperature() {
 
   Serial.println(" T:" + String(newValues.temperature) + " H:" + String(newValues.humidity) + " I:" + String(heatIndex) + " D:" + String(dewPoint) + " " + comfortStatus);
   delay(50);
-  digitalWrite(5, !digitalRead(5));  
+  digitalWrite(LED, !digitalRead(5));  
 	return true;
 }
 
