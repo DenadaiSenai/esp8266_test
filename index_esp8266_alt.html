@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ESP8266 Dashboard</title>
+    <style>
+        * {
+            margin: 0px auto;
+            padding: 0px;
+            border: 1px solid transparent;
+            align-items: center;
+            text-align: center;
+        }
+
+        nav ul {
+            display: flex;
+            flex-direction: row;
+            margin: 8px;
+            border: 2px dotted rgb(150, 107, 42);
+        }
+
+        header {
+            background-color: orange;
+        }
+
+        main {
+            display: flex;
+            flex-direction: row;
+            margin-top: 30px;
+            border: 1px dashed orange;
+            padding: 5px;
+        }
+
+        footer {
+            margin: 25px auto;
+            border: 1px solid rgb(226, 155, 24);
+        }
+
+        .container {
+            background-color: rgb(231, 225, 225);
+            width: 50%;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .card p {
+            font-size: 0.5em;
+        }
+
+        #temperature {
+            font-size: 1em;
+            font-family: 'Courier New', Courier, monospace;
+            border: 3px dotted yellow;
+            border-radius: 24px;
+            background-color: yellowgreen;
+        }
+    </style>
+    <script>
+        setInterval(function () {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    let status = JSON.parse(this.responseText);
+                    // document.getElementById('temperature').innerHTML = this.responseText;
+                    document.getElementById('temperatura').innerHTML = status.temperatura;
+                    document.getElementById('umidade').innerHTML = status.umidade;
+                    document.getElementById('millis').innerHTML = status.millis;
+                }
+            };
+            xhttp.open('GET', '/status', true); xhttp.send();
+        }, 1000); 
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <nav>
+            <ul>
+                <li>LED</li>
+                <li>RTC</li>
+            </ul>
+        </nav>
+        <header>
+            <h3>ESP 8266 DashBoard</h3>
+        </header>
+        <main>
+            <div class="card">
+                <h1 id="temperatura">100</h1>
+                <p>( ºC )</p>
+                <h6>Temperatura</h6>
+            </div>
+            <div class="card">
+                <h1 id="umidade">100</h1>
+                <p>( % )</p>
+                <h6>Umidade</h6>
+            </div>
+            <div class="card">
+                <h1 id="millis">100</h1>
+                <p>( ms )</p>
+                <h6>millis</h6>
+            </div>
+        </main>
+        <footer>
+            <h3>©2023 Marcio Denadai</h3>
+        </footer>
+    </div>
+</body>
+
+</html>
